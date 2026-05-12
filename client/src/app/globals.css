@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-purple: #6b21a8;
+}
+
+/* This is the part that makes the magic happen */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+}
+
+@theme inline {
+  /* Mapping Tailwind utility names to your CSS variables */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-main-purple: var(--primary-purple);
+  
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  /* Smooth transition for the eyes */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
