@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Roboto } from "next/font/google"; 
 import { ThemeProvider } from "@/app/context/ThemeContext"; // Adjust path if needed
 import Navbar from "@/app/components/Navbar";
 
@@ -8,21 +8,23 @@ export const metadata = {
   description: "Real Estate App",
 };
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+export const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["300","400","500","600","700"],
+  variable: "--font-poppins",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+export const roboto = Roboto({
   subsets: ["latin"],
+  weight: ["300","400","500","700"],
+  variable: "--font-roboto",
 });
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+        <body className={`${poppins.variable} ${roboto.variable}`}>
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>

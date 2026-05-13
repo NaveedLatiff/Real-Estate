@@ -12,14 +12,15 @@
   --foreground: #ffffff;
 }
 
+
+
 @theme inline {
   /* Mapping Tailwind utility names to your CSS variables */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-main-purple: var(--primary-purple);
-  
-  --font-heading: "Poppins", sans-serif;
-  --font-body: "Inter", sans-serif;
+ --font-poppins: var(--font-poppins);
+  --font-roboto: var(--font-roboto);
 }
 
 body {

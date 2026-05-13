@@ -1,106 +1,118 @@
-"use client";
+"use client"
+import React, { useState, useRef, useEffect } from "react"
+import { HiMenu, HiSun, HiMoon } from "react-icons/hi"
+import gsap from "gsap"
+import OverlayMenu from "./OverlayMenu"
 
-import { useState } from "react";
-import Link from "next/link";
-import { HiMenu, HiX, HiMoon, HiSun } from "react-icons/hi";
-import { HiOutlineHomeModern } from "react-icons/hi2";
-import { useTheme } from "@/app/context/ThemeContext";
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [menuIconPosition, setMenuIconPosition] = useState({ x: 0, y: 0 })
+  const [showNavbar, setShowNavbar] = useState(true)
+  const [isDarkMode, setIsDarkMode] = useState(true)
 
-export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const menuButtonRef = useRef(null)
+  const navRef = useRef(null)
 
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-    { name: "Agents", href: "/agents" },
-  ];
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
+  const toggleTheme = () => {
+    const newDarkMode = !isDarkMode
+    setIsDarkMode(newDarkMode)
+    if (typeof document !== "undefined") {
+      const root = document.documentElement
+      newDarkMode ? root.classList.add("dark") : root.classList.remove("dark")
+    }
+  }
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (menuButtonRef.current) {
+        const rect = menuButtonRef.current.getBoundingClientRect()
+        setMenuIconPosition({
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        })
+      }
+    }
+    updatePosition()
+    window.addEventListener("resize", updatePosition)
+    return () => window.removeEventListener("resize", updatePosition)
+  }, [])
+
+  useEffect(() => {
+    gsap.to("#theme-handle", {
+      x: isDarkMode ? 0 : 32,
+      duration: 0.4,
+      ease: "back.out(1.2)"
+    })
+  }, [isDarkMode])
+
+  
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
-      <nav className="flex items-center justify-between px-6 md:px-16 py-4">
-        
-        {/* Logo - Uses Poppins */}
-        <Link href="/" className="flex items-center gap-2 text-foreground font-heading">
-          <div className="bg-main-purple p-1.5 rounded-lg">
-            <HiOutlineHomeModern className="text-white text-2xl" />
-          </div>
-          <span className="text-xl font-bold tracking-tight">LamaEstate</span>
-        </Link>
-
-        {/* Desktop Nav - Uses Inter (Default) */}
-        <ul className="hidden md:flex items-center gap-9">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <Link 
-                href={link.href} 
-                className="text-sm font-medium text-gray-500 hover:text-main-purple dark:text-gray-400 dark:hover:text-white transition-colors"
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-6">
-          {/* Theme Toggle Button */}
-          <button 
-            onClick={toggleTheme} 
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-foreground transition-all"
-            aria-label="Toggle Theme"
-          >
-            {theme === "light" ? <HiMoon size={22} /> : <HiSun size={22} />}
-          </button>
+    <>
+     <nav
+        ref={navRef}
+        className={`flex justify-between items-center  w-full z-[9998] transition-all duration-500 transform ${showNavbar ? "translate-y-0" : "-translate-y-full"} `}
+      >
+        <div className="relative w-full px-6 md:px-10 lg:px-16 py-3 flex items-center justify-center">
           
-          <Link href="/signin" className="text-sm font-medium text-gray-500 hover:text-main-purple dark:text-gray-400">
-            Sign in
-          </Link>
-          <Link 
-            href="/signup" 
-            className="bg-main-purple text-white text-sm font-semibold px-6 py-2.5 rounded-md hover:opacity-90 transition-all shadow-sm"
-          >
-            Sign up
-          </Link>
-        </div>
+          <div className="absolute left-6 md:left-10 lg:left-16">
+            <button className="text-lg  sm:text-2xl font-bold italic font-poppins bg-transparent border-none cursor-pointer transition-colors duration-300 dark:text-white">
+              LamaEstate
+            </button>
+          </div>
 
-        {/* Mobile Buttons */}
-        <div className="flex md:hidden items-center gap-4">
-          <button onClick={toggleTheme} className="text-2xl text-foreground">
-            {theme === "light" ? <HiMoon /> : <HiSun />}
-          </button>
-          <button 
-            className="text-3xl text-foreground" 
-            onClick={() => setMenuOpen(!menuOpen)}
+          <button
+            ref={menuButtonRef}
+            onClick={toggleMenu}
+            className="flex items-center justify-center w-5 h-5 sm:w-10 sm:h-10 rounded-full transition-all cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 dark:text-white"
           >
-            {menuOpen ? <HiX /> : <HiMenu />}
+            <HiMenu size={26} />
           </button>
+
+          <div className="absolute right-6 md:right-10 lg:right-16 flex items-center gap-6">
+          
+            <div
+              onClick={toggleTheme}
+              className="relative w-14 h-7 flex items-center bg-gray-300 dark:bg-purple-900/40 rounded-full p-1 cursor-pointer transition-colors duration-500 shrink-0"
+            >
+              <div className="flex justify-between w-full px-1 text-gray-500">
+                <HiMoon size={14} />
+                <HiSun size={14} />
+              </div>
+              <div
+                id="theme-handle"
+                className="absolute w-5 h-5 bg-white rounded-full shadow-md flex items-center justify-center"
+                style={{ transform: isDarkMode ? "translateX(0px)" : "translateX(28px)" }}
+              >
+                {isDarkMode ? (
+                  <HiMoon className="text-purple-900" size={12} />
+                ) : (
+                  <HiSun className="text-orange-500" size={12} />
+                )}
+              </div>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-3">
+               <button className="px-5 py-2 rounded-2xl text-sm font-medium cursor-pointer bg-gradient-to-r from-purple-900 to-purple-600 text-white shrink-0">
+                Log In
+              </button>
+              <button className="px-5 py-2 rounded-2xl text-sm font-medium cursor-pointer bg-gradient-to-r from-purple-900 to-purple-600 text-white shrink-0">
+                Sign Up
+              </button>
+            </div>
+          </div>
+
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="absolute top-full left-0 w-full bg-background border-t border-gray-100 dark:border-gray-800 flex flex-col md:hidden p-6 gap-2 shadow-xl">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              className="text-lg py-3 text-foreground border-b border-gray-50 dark:border-gray-900" 
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <Link 
-            href="/signup" 
-            className="mt-4 bg-main-purple text-white text-center py-3 rounded-md font-bold"
-            onClick={() => setMenuOpen(false)}
-          >
-            Sign up
-          </Link>
-        </div>
-      )}
-    </header>
-  );
+      <OverlayMenu
+        isOpen={isMenuOpen}
+        toggleMenu={toggleMenu}
+        menuIconPosition={menuIconPosition}
+      />
+    </>
+  )
 }
+
+export default Navbar
