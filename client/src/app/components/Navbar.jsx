@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react"
 import { HiMenu, HiSun, HiMoon } from "react-icons/hi"
 import gsap from "gsap"
 import OverlayMenu from "./OverlayMenu"
+import Link from "next/link"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -57,9 +58,11 @@ const Navbar = () => {
         <div className="relative w-full px-6 md:px-10 lg:px-16 py-3 flex items-center justify-center">
           
           <div className="absolute left-6 md:left-10 lg:left-16">
+             <Link href="/">
             <button className="text-lg  sm:text-2xl font-bold italic font-poppins bg-transparent border-none cursor-pointer transition-colors duration-300 dark:text-white">
               LamaEstate
             </button>
+             </Link>
           </div>
 
           <button

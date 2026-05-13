@@ -1,20 +1,20 @@
-"use client"
-import React, { useEffect, useRef } from "react"
-import { IoClose } from "react-icons/io5"
-import Link from "next/link"
-import gsap from "gsap"
+"use client";
+import React, { useEffect, useRef } from "react";
+import { IoClose } from "react-icons/io5";
+import Link from "next/link";
+import gsap from "gsap";
 
 const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
-  const overlayRef = useRef(null)
-  const linksRef = useRef([])
+  const overlayRef = useRef(null);
+  const linksRef = useRef([]);
 
   useEffect(() => {
-    const xPercent = (menuIconPosition.x / window.innerWidth) * 100
-    const yPercent = (menuIconPosition.y / window.innerHeight) * 100
+    const xPercent = (menuIconPosition.x / window.innerWidth) * 100;
+    const yPercent = (menuIconPosition.y / window.innerHeight) * 100;
 
     if (isOpen) {
-      document.body.style.overflow = "hidden"
-      gsap.set(overlayRef.current, { display: "flex" })
+      document.body.style.overflow = "hidden";
+      gsap.set(overlayRef.current, { display: "flex" });
       gsap.fromTo(
         overlayRef.current,
         { clipPath: `circle(0% at ${xPercent}% ${yPercent}%)` },
@@ -23,7 +23,7 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
           duration: 0.8,
           ease: "power3.inOut",
         },
-      )
+      );
       gsap.fromTo(
         linksRef.current,
         { y: 50, opacity: 0 },
@@ -35,26 +35,26 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
           delay: 0.4,
           ease: "power2.out",
         },
-      )
+      );
     } else {
-      document.body.style.overflow = "unset"
+      document.body.style.overflow = "unset";
       gsap.to(overlayRef.current, {
         clipPath: `circle(0% at ${xPercent}% ${yPercent}%)`,
         duration: 0.6,
         ease: "power3.inOut",
         onComplete: () => {
-          gsap.set(overlayRef.current, { display: "none" })
+          gsap.set(overlayRef.current, { display: "none" });
         },
-      })
+      });
     }
-  }, [isOpen, menuIconPosition])
+  }, [isOpen, menuIconPosition]);
 
   const menuItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Agents", path: "/agents" },
     { name: "Contact", path: "/contact" },
-  ]
+  ];
 
   return (
     <div
@@ -63,9 +63,11 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
       style={{ clipPath: "circle(0% at 50% 50%)" }}
     >
       <div className="w-full px-6 md:px-10 lg:px-16 py-3 flex justify-between items-center shrink-0">
-        <span className="text-lg  sm:text-2xl font-bold text-white italic font-poppins">
-         LamaEstate
-        </span>
+        <Link href="/">
+          <span className="text-lg  sm:text-2xl font-bold text-white italic font-poppins">
+            LamaEstate
+          </span>
+        </Link>
         <button
           onClick={toggleMenu}
           className="w-12 h-12 flex items-center justify-center text-white hover:bg-white/20 rounded-full transition-all cursor-pointer"
@@ -84,13 +86,11 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
                 className=" w-full text-3xl sm:text-4xl md:text-6xl font-bold text-white transition-all uppercase leading-tight md:hover:text-7xl hover:text-purple-600 transition-all"
               >
                 {item.name}
-
               </Link>
             </div>
           ))}
-          
-          
-          <div 
+
+          <div
             className="flex flex-col items-center gap-4 pt-8 lg:hidden w-full max-w-[280px] mx-auto"
             ref={(el) => (linksRef.current[menuItems.length] = el)}
           >
@@ -104,7 +104,7 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OverlayMenu
+export default OverlayMenu;
