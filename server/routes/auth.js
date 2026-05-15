@@ -5,9 +5,7 @@ import  {isAuthenticated, register, updateProfile} from '../controllers/auth.js'
 import  {login} from '../controllers/auth.js'
 import  {logout} from '../controllers/auth.js'
 
-
 import userAuth from '../middleware/userAuth.js';
-
 
 authRouter.post('/register',register);
 authRouter.post('/login',login);
