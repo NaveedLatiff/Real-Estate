@@ -9,7 +9,7 @@ const Card = ({ item }) => {
     
       <Link href={`/${item.id}`} className="flex-2 h-48 md:h-40 lg:h-48 overflow-hidden rounded-lg">
         <img 
-          src={item.img} 
+          src={item.images[0]} 
           alt={item.title} 
           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
         />
