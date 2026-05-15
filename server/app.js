@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import 'dotenv/config';
 import authRouter from "./routes/auth.js";
+import postRouter from "./routes/post.js";
 import cookieParser from "cookie-parser";
 
 const app=express();
@@ -14,7 +15,7 @@ app.use(cors({origin: "http://localhost:3000",credentials:true}));
 
 
 app.use('/api/auth',authRouter)
-
+app.use('/api/post',postRouter)
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`)
 })
