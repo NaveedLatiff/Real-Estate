@@ -1,13 +1,11 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import express from "express";
 import cors from "cors";
-import authRouter from "./routes/auth.js"
+import 'dotenv/config';
+import authRouter from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 
 const app=express();
 const PORT=process.env.PORT || 3003
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
