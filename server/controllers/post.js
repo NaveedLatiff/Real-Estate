@@ -1,24 +1,43 @@
-import prisma from "../config/db.js";
-import cloudinary from "../config/cloudinary.js";
-
+import prisma from "../config/db.js"
+import cloudinary from "../config/cloudinary.js"
 
 export const addPost = async (req, res) => {
   try {
     const userId = req.userId
 
     const {
-      title,price,images,address,city,bedroom,bathroom,latitude,longitude,type,property} = req.body
+      title,
+      price,
+      images,
+      address,
+      city,
+      bedroom,
+      bathroom,
+      latitude,
+      longitude,
+      type,
+      property,
+      postDetail,
+    } = req.body
 
     if (
-      !title || !price || !images || !address || !city || !bedroom || !bathroom || !latitude || !longitude || !type || !property
+      !title ||
+      !price ||
+      !images ||
+      !address ||
+      !city ||
+      !bedroom ||
+      !bathroom ||
+      !latitude ||
+      !longitude ||
+      !type ||
+      !property
     ) {
       return res.json({
         success: false,
         message: "Please provide all required fields",
       })
     }
-
-
 
     let uploadedImages = []
 
@@ -44,6 +63,25 @@ export const addPost = async (req, res) => {
         type,
         property,
         userId,
+        PostDetail: postDetail
+          ? {
+              create: {
+                desc: postDetail.desc,
+                utilities: postDetail.utilities,
+                pet: postDetail.pet,
+                income: postDetail.income,
+                size: postDetail.size ? Number(postDetail.size) : null,
+                school: postDetail.school ? Number(postDetail.school) : null,
+                bus: postDetail.bus ? Number(postDetail.bus) : null,
+                restaurant: postDetail.restaurant
+                  ? Number(postDetail.restaurant)
+                  : null,
+              },
+            }
+          : undefined,
+      },
+      include: {
+        PostDetail: true,
       },
     })
 
@@ -52,7 +90,6 @@ export const addPost = async (req, res) => {
       message: "Post created successfully",
       post,
     })
-
   } catch (err) {
     return res.json({
       success: false,
@@ -60,7 +97,6 @@ export const addPost = async (req, res) => {
     })
   }
 }
-
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -92,7 +128,6 @@ export const getAllPosts = async (req, res) => {
   }
 }
 
-
 export const getSinglePost = async (req, res) => {
   try {
     const { id } = req.params
@@ -110,6 +145,7 @@ export const getSinglePost = async (req, res) => {
             profile: true,
           },
         },
+        PostDetail: true,
       },
     })
 
@@ -131,7 +167,6 @@ export const getSinglePost = async (req, res) => {
     })
   }
 }
-
 
 export const getUserPosts = async (req, res) => {
   try {
@@ -157,7 +192,6 @@ export const getUserPosts = async (req, res) => {
     })
   }
 }
-
 
 export const deletePost = async (req, res) => {
   try {
@@ -238,6 +272,7 @@ export const updatePost = async (req, res) => {
       longitude,
       type,
       property,
+      postDetail
     } = req.body
 
     let updateData = {}
@@ -252,10 +287,25 @@ export const updatePost = async (req, res) => {
     if (longitude) updateData.longitude = longitude
     if (type) updateData.type = type
     if (property) updateData.property = property
-
+    if (postDetail) {
+  updateData.PostDetail = {
+    update: {
+      desc: postDetail.desc,
+      utilities: postDetail.utilities,
+      pet: postDetail.pet,
+      income: postDetail.income,
+      size: postDetail.size ? Number(postDetail.size) : null,
+      school: postDetail.school ? Number(postDetail.school) : null,
+      bus: postDetail.bus ? Number(postDetail.bus) : null,
+      restaurant: postDetail.restaurant
+        ? Number(postDetail.restaurant)
+        : null,
+    },
+  } 
+}   
     const updatedPost = await prisma.post.update({
       where: {
-        id,
+        id, 
       },
       data: updateData,
     })
