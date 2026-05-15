@@ -5,7 +5,7 @@ import prisma from "../config/db.js"
 
 export const register = async (req, res) => {
   try {
-    const { userName, email, password, profile } = req.body
+    const { userName, email, password } = req.body
     if (!userName || !email || !password) {
       return res.json({
         success: false,
@@ -25,13 +25,6 @@ export const register = async (req, res) => {
       })
     }
     let data = { userName, email }
-
-    if (profile) {
-      const uploadResponse = await cloudinary.uploader.upload(profile, {
-        folder: "profileImages",
-      })
-      data.profile = uploadResponse.secure_url
-    }
 
     const hashedPassword = await bcrypt.hash(password, 10)
     data.password = hashedPassword
