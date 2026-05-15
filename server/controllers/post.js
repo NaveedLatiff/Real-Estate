@@ -218,6 +218,10 @@ export const deletePost = async (req, res) => {
       })
     }
 
+    await prisma.postDetail.delete({
+      where: { postId: id },
+    })
+
     await prisma.post.delete({
       where: {
         id,
@@ -272,7 +276,7 @@ export const updatePost = async (req, res) => {
       longitude,
       type,
       property,
-      postDetail
+      postDetail,
     } = req.body
 
     let updateData = {}
@@ -288,24 +292,24 @@ export const updatePost = async (req, res) => {
     if (type) updateData.type = type
     if (property) updateData.property = property
     if (postDetail) {
-  updateData.PostDetail = {
-    update: {
-      desc: postDetail.desc,
-      utilities: postDetail.utilities,
-      pet: postDetail.pet,
-      income: postDetail.income,
-      size: postDetail.size ? Number(postDetail.size) : null,
-      school: postDetail.school ? Number(postDetail.school) : null,
-      bus: postDetail.bus ? Number(postDetail.bus) : null,
-      restaurant: postDetail.restaurant
-        ? Number(postDetail.restaurant)
-        : null,
-    },
-  } 
-}   
+      updateData.PostDetail = {
+        update: {
+          desc: postDetail.desc,
+          utilities: postDetail.utilities,
+          pet: postDetail.pet,
+          income: postDetail.income,
+          size: postDetail.size ? Number(postDetail.size) : null,
+          school: postDetail.school ? Number(postDetail.school) : null,
+          bus: postDetail.bus ? Number(postDetail.bus) : null,
+          restaurant: postDetail.restaurant
+            ? Number(postDetail.restaurant)
+            : null,
+        },
+      }
+    }
     const updatedPost = await prisma.post.update({
       where: {
-        id, 
+        id,
       },
       data: updateData,
     })
@@ -314,6 +318,51 @@ export const updatePost = async (req, res) => {
       success: true,
       message: "Post updated successfully",
       post: updatedPost,
+    })
+  } catch (err) {
+    return res.json({
+      success: false,
+      message: err.message,
+    })
+  }
+}
+
+export const getFilteredPosts = async (req, res) => {
+  try {
+    const { city, type, property, minPrice, maxPrice, bedroom } = req.query
+
+    const filters = {}
+
+    if (city) filters.city = { contains: city, mode: "insensitive" }
+    if (type && type !== "any") filters.type = type.toLowerCase()
+    if (property && property !== "any") filters.property = property.toLowerCase()
+    if (bedroom) filters.bedroom = bedroom
+    if (minPrice || maxPrice) {
+      filters.price = {}
+      if (minPrice) filters.price.gte = Number(minPrice)
+      if (maxPrice) filters.price.lte = Number(maxPrice)
+    }
+
+    const posts = await prisma.post.findMany({
+      where: filters,
+      include: {
+        user: {
+          select: {
+            id: true,
+            userName: true,
+            email: true,
+            profile: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+
+    return res.json({
+      success: true,
+      posts,
     })
   } catch (err) {
     return res.json({
