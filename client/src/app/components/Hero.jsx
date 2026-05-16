@@ -1,25 +1,22 @@
 "use client"
 import React from "react"
+import Image from 'next/image'
+import img from '../../../public/hero.png'
 
 const Hero = () => {
   return (
-    <section className="w-full min-h-[calc(100vh-80px)] flex items-center font-poppins overflow-hidden relative  ">
+    <section className="w-full min-h-[calc(100vh-80px)] flex items-center font-poppins overflow-hidden relative   ">
 
 
       <div className="relative w-full px-6 md:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
         <div className="flex flex-col justify-center items-start space-y-8">
 
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-300/40 dark:border-purple-700/40 bg-purple-50/60 dark:bg-purple-900/20">
-            <span className="text-xs font-medium text-purple-700 dark:text-purple-300 tracking-wide uppercase">
-              Top Real Estate Company
-            </span>
-          </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight dark:text-white">
             Find Real Estate &{" "}
             <span className="relative inline-block">
-              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-violet-500 dark:from-purple-400 dark:to-violet-300">
+              <span className=" relative z-99 text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-violet-500 dark:from-purple-400 dark:to-violet-300">
                 Dream Place
               </span>
               <svg className="absolute -bottom-1 left-0 w-full" height="6" viewBox="0 0 200 6" preserveAspectRatio="none">
@@ -55,7 +52,14 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="hidden lg:block w-full h-full" />
+        <div className="hidden lg:block w-full h-full">
+          <Image 
+            src={img} 
+            alt="Hero Real Estate" 
+            className="w-full h-auto object-cover"
+            priority
+          />
+        </div>
       </div>
     </section>
   )
