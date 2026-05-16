@@ -210,3 +210,22 @@ export const logout = async (req, res) => {
     })
   }
 }
+
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        userName: true,
+        email: true,
+        profile: true,
+        createdAt: true,
+      },
+    })
+    res.json({ success: true, users })
+  } catch (err) {
+    res.json({ success: false, message: err.message })
+  }
+}
+ 
