@@ -1,6 +1,6 @@
 "use client";
 
-import "../lib/leaflet";
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import Axios from "../../../axios";
 import { useAuth } from "../context/AuthContext";
@@ -29,13 +29,12 @@ import {
 
 import { MdOutlineAttachMoney } from "react-icons/md";
 
-import { MapContainer, TileLayer } from "react-leaflet";
-import Pin from "../components/Pin";
-
 import "leaflet/dist/leaflet.css";
 import Loader from "../components/Loader";
 import Link from "next/link";
 import MessageButton from "../components/Messagebutton";
+
+const SingleMap = dynamic(() => import("../components/SingleMap"), { ssr: false });
 
 export default function SinglePage({ params }) {
   const { id } = React.use(params);
@@ -51,8 +50,6 @@ export default function SinglePage({ params }) {
     try {
       setLoading(true);
       const res = await Axios.get(`/post/${id}`);
-      console.log(res.data.post);
-      
       setData(res.data.post);
     } catch (err) {
       console.log(err);
@@ -70,11 +67,9 @@ export default function SinglePage({ params }) {
       setDeleting(true);
       const res = await Axios.delete(`/post/${id}`);
       if (res.data.success) {
-        console.log("hello");
         toast.success("Post deleted successfully");
         router.push("/");
       } else {
-        console.log('hello2');
         toast.error(res.data.message);
       }
     } catch (err) {
@@ -96,13 +91,12 @@ export default function SinglePage({ params }) {
     }
   };
 
-const isOwner = user && data && user.id === data.userId;
-console.log("user.id:", user?.id, "data.userId:", data?.userId);
+  const isOwner = user && data && user.id === data.userId;
 
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center">
-       <Loader />
+        <Loader />
       </div>
     );
   }
@@ -201,7 +195,6 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
       <div className="flex-2 p-5 lg:p-8 space-y-8">
         <div>
           <h3 className="font-bold text-lg mb-4">General</h3>
-
           <div className="p-4 rounded-xl space-y-4 shadow-sm">
             <div className="flex items-center gap-3">
               <LuUtilityPole className="text-purple-600" size={24} />
@@ -210,7 +203,6 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
                 <p className="text-xs text-gray-500">{data.PostDetail.utilities}</p>
               </div>
             </div>
-
             <div className="flex items-center gap-3">
               <LuDog className="text-purple-600" size={24} />
               <div>
@@ -218,7 +210,6 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
                 <p className="text-xs text-gray-500">{data.PostDetail.pet}</p>
               </div>
             </div>
-
             <div className="flex items-center gap-3">
               <MdOutlineAttachMoney className="text-purple-600" size={24} />
               <div>
@@ -231,18 +222,15 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
 
         <div>
           <h3 className="font-bold text-lg mb-4">Room Sizes</h3>
-
           <div className="flex flex-wrap gap-4">
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
               <IoResizeOutline className="text-purple-600" />
               <span className="text-xs font-semibold">{data.PostDetail.size} sqft</span>
             </div>
-
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
               <IoBedOutline className="text-purple-600" />
               <span className="text-xs font-semibold">{data.bedroom} bed</span>
             </div>
-
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
               <LuBath className="text-purple-600" />
               <span className="text-xs font-semibold">{data.bathroom} bath</span>
@@ -252,7 +240,6 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
 
         <div>
           <h3 className="font-bold text-lg mb-4">Nearby Places</h3>
-
           <div className="p-4 rounded-xl flex justify-between shadow-sm">
             <div className="flex items-center justify-center gap-2">
               <LuSchool className="text-purple-600" />
@@ -261,7 +248,6 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
                 <p className="text-[10px]">{data.PostDetail.school}</p>
               </div>
             </div>
-
             <div className="flex items-center gap-2">
               <LuBus className="text-purple-600" />
               <div>
@@ -269,7 +255,6 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
                 <p className="text-[10px]">{data.PostDetail.bus}</p>
               </div>
             </div>
-
             <div className="flex items-center gap-2">
               <LuUtensils className="text-purple-600" />
               <div>
@@ -282,20 +267,8 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
 
         <div>
           <h3 className="font-bold text-lg mb-4">Location</h3>
-
           <div className="w-full h-64 rounded-xl overflow-hidden">
-            <MapContainer
-              center={[data.latitude, data.longitude]}
-              zoom={13}
-              scrollWheelZoom={false}
-              style={{ height: "100%", width: "100%" }}
-            >
-              <TileLayer
-                attribution="&copy OpenStreetMap contributors"
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <Pin item={data} />
-            </MapContainer>
+            <SingleMap lat={data.latitude} lng={data.longitude} data={data} />
           </div>
         </div>
 
@@ -308,7 +281,6 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
               >
                 Update Post
               </button>
-
               <button
                 onClick={handleDelete}
                 disabled={deleting}
