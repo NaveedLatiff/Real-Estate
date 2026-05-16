@@ -5,6 +5,7 @@ import Navbar from "@/app/components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { SocketProvider } from "./context/Socketcontext";
 
 export const metadata = {
   title: "LamaEstate",
@@ -30,9 +31,11 @@ export default function RootLayout({ children }) {
         <body className={`${poppins.variable} ${roboto.variable}`}>
           <AuthProvider>
         <ThemeProvider>
+          <SocketProvider>
           <Navbar />
           <main>{children}</main>
           <ToastContainer position="top-right" autoClose={3000} />
+          </SocketProvider>
         </ThemeProvider>
           </AuthProvider>
       </body>

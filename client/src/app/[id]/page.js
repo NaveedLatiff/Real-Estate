@@ -34,6 +34,8 @@ import Pin from "../components/Pin";
 
 import "leaflet/dist/leaflet.css";
 import Loader from "../components/Loader";
+import Link from "next/link";
+import MessageButton from "../components/Messagebutton";
 
 export default function SinglePage({ params }) {
   const { id } = React.use(params);
@@ -316,10 +318,7 @@ console.log("user.id:", user?.id, "data.userId:", data?.userId);
               </button>
             </>
           ) : (
-            <button className="flex-1 border py-3 rounded-md flex items-center justify-center gap-2 cursor-pointer text-sm font-medium">
-              <HiOutlineChatAlt2 />
-              Send a Message
-            </button>
+            <MessageButton ownerId={data.userId} />
           )}
         </div>
       </div>

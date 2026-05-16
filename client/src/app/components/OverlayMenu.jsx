@@ -56,9 +56,9 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
     { name: "About", path: "/about" },
     { name: "Agents", path: "/agents" },
     { name: "Contact", path: "/contact" },
-    { name: "Post Job", path: "/post" },
-    { name: "ALL Properties", path: "/list" },
-    
+    { name: "Post Ad", path: "/post" },
+    { name: "Properties", path: "/list" },
+    { name: "Chats", path: "/chat" },    
   ]
 
   return (

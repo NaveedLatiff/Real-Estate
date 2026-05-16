@@ -113,38 +113,37 @@ const Navbar = () => {
               </div>
             </div>
 
-            <div className="hidden lg:flex items-center ">
+            <div className="hidden lg:flex items-center gap-2 ">
               {mounted &&
                 (user ? (
                   <>
                     <Link href="/profile-page">
-                      <button 
-                      className="px-5 py-2  text-sm font-medium cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-purple-500 dark:hover:text-purple-400 transition-colorsshrink-0"
-                  >
-                      Profile
+                      <button className="px-3 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold cursor-pointer rounded-xl bg-purple-600 hover:bg-purple-500 dark:bg-purple-700 dark:hover:bg-purple-600 text-white shrink-0 shadow-lg shadow-purple-500/20 dark:shadow-purple-900/40 active:scale-[0.98] transition-all tracking-wide">
+                        Profile
                       </button>
                     </Link>
                     <button
                       onClick={logout}
-                      className="px-5 py-2  text-sm font-medium cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-purple-500 dark:hover:text-purple-400 transition-colorsshrink-0"
+                      className="px-3 py-1.5 sm:px-5 sm:py-2 text-xs  sm:text-sm font-semibold cursor-pointer rounded-xl bg-purple-600 hover:bg-purple-500 dark:bg-purple-700 dark:hover:bg-purple-600 text-white shrink-0 shadow-lg shadow-purple-500/20 dark:shadow-purple-900/40 active:scale-[0.98] transition-all tracking-wide"
                     >
                       Logout
                     </button>
                     <Link href="/my">
-                      <button className="px-5 py-2  text-sm font-medium cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-purple-500 dark:hover:text-purple-400 transition-colorsshrink-0">
+                      <button className="px-3 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold cursor-pointer rounded-xl bg-purple-600 hover:bg-purple-500 dark:bg-purple-700 dark:hover:bg-purple-600 text-white shrink-0 shadow-lg shadow-purple-500/20 dark:shadow-purple-900/40 active:scale-[0.98] transition-all tracking-wide">
                         My Posts
                       </button>
                     </Link>
+
                   </>
                 ) : (
                   <>
                     <Link href="/login">
-                      <button className="px-5 py-2  text-sm font-medium cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-purple-500 dark:hover:text-purple-400 transition-colorsshrink-0">
+                      <button className="px-3 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold cursor-pointer rounded-xl bg-purple-600 hover:bg-purple-500 dark:bg-purple-700 dark:hover:bg-purple-600 text-white shrink-0 shadow-lg shadow-purple-500/20 dark:shadow-purple-900/40 active:scale-[0.98] transition-all tracking-wide">
                         Log In
                       </button>
                     </Link>
                     <Link href="/login">
-                      <button className="px-5 py-2  text-sm font-medium cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-purple-500 dark:hover:text-purple-400 transition-colorsshrink-0">
+                      <button className="px-3 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold cursor-pointer rounded-xl bg-purple-600 hover:bg-purple-500 dark:bg-purple-700 dark:hover:bg-purple-600 text-white shrink-0 shadow-lg shadow-purple-500/20 dark:shadow-purple-900/40 active:scale-[0.98] transition-all tracking-wide">
                         Sign Up
                       </button>
                     </Link>
@@ -174,6 +173,7 @@ const Navbar = () => {
                     My Posts
                   </button>
                 </Link>
+
               </>
             ) : (
               <>
