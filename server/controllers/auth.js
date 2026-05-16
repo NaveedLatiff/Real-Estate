@@ -111,9 +111,7 @@ export const updateProfile = async (req, res) => {
 
     const user = await prisma.user.findUnique({ where: { id: userId } })
     if (!user)
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" })
+      return res.json({ success: false, message: "User not found" })
 
     let updateData = {}
     if (userName) updateData.userName = userName
@@ -149,7 +147,10 @@ export const updateProfile = async (req, res) => {
       user: userwithoutpass,
     })
   } catch (err) {
-    return res.status(500).json({ success: false, message: err.message })
+  return res.json({
+      success: false,
+      message: `Internal Server Error ${err.message}`,
+    })
   }
 }
 

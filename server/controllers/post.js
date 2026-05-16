@@ -63,7 +63,7 @@ export const addPost = async (req, res) => {
         type,
         property,
         userId,
-        PostDetail: postDetail
+        PostDetail: postDetail      
           ? {
               create: {
                 desc: postDetail.desc,
@@ -93,7 +93,7 @@ export const addPost = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: err.message,
+      message: `Internal Server Error: ${err.message}`,
     })
   }
 }
@@ -123,7 +123,7 @@ export const getAllPosts = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: err.message,
+      message: `Internal Server Error: ${err.message}`,
     })
   }
 }
@@ -163,7 +163,7 @@ export const getSinglePost = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: err.message,
+      message: `Internal Server Error: ${err.message}`,
     })
   }
 }
@@ -188,7 +188,7 @@ export const getUserPosts = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: err.message,
+      message: `Internal Server Error: ${err.message}`,
     })
   }
 }
@@ -235,7 +235,7 @@ export const deletePost = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: err.message,
+      message: `Internal Server Error: ${err.message}`,
     })
   }
 }
@@ -322,7 +322,7 @@ export const updatePost = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: err.message,
+      message: `Internal Server Error: ${err.message}`,
     })
   }
 }
@@ -367,7 +367,7 @@ export const getFilteredPosts = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: err.message,
+      message: `Internal Server Error: ${err.message}`,
     })
   }
 }

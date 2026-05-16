@@ -20,7 +20,7 @@ export const getChats = async (req, res) => {
     })
     res.json({ success: true, chats })
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message })
+    res.json({ success: false, message: err.message })
   }
 }
 
@@ -46,7 +46,7 @@ export const getChat = async (req, res) => {
     })
     res.json({ success: true, chat })
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message })
+    res.json({ success: false, message: err.message })
   }
 }
 
@@ -73,7 +73,7 @@ export const createChat = async (req, res) => {
     })
     res.json({ success: true, chat })
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message })
+    res.json({ success: false, message: `Internal Server Error: ${err.message}` })
   }
 }
 
@@ -103,6 +103,6 @@ export const sendMessage = async (req, res) => {
     })
     res.json({ success: true, message })
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message })
+    res.json({ success: false, message: err.message })
   }
 }

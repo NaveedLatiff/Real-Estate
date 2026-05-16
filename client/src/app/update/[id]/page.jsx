@@ -121,7 +121,7 @@ const Page = ({ params }) => {
   if (fetching) {
     return (
       <div className="h-screen flex items-center justify-center">
-        ]<Loader />
+        <Loader />
       </div>
     )
   }

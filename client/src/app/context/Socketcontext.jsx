@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!user) return
 
-    const s = io("http://localhost:3003", {
+    const s = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
       query: { userId: user.id },
       withCredentials: true,
     })

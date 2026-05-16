@@ -4,7 +4,7 @@ const userAuth = async (req, res, next) => {
     const token = req.cookies?.token 
     
     if (!token) {
-        return res.status(401).json({
+        return res.json({
             success: false,
             message: "Not Authorized. Please Login"
         })
@@ -17,13 +17,13 @@ const userAuth = async (req, res, next) => {
             req.userId = tokenDecode.id
             next()
         } else {
-            return res.status(401).json({
+            return res.json({
                 success: false,
                 message: "Invalid Token. Please Login"
             })
         }
     } catch (err) {
-        return res.status(401).json({
+        return res.json({
             success: false,
             message: `Authentication Error: ${err.message}`
         })

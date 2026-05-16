@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./server
+    container_name: server
+    restart: always
+    ports:
+      - "3003:3003"
+    env_file:
+      - .env
+
+  frontend:
+    build: 
+      context: ./client
+      args:
+        - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+        - NEXT_PUBLIC_SOCKET_URL=${NEXT_PUBLIC_SOCKET_URL}
+    container_name: client
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - backend
