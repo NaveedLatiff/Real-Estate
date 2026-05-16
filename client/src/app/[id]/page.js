@@ -3,6 +3,9 @@
 import "../lib/leaflet";
 import React, { useEffect, useState } from "react";
 import Axios from "../../../axios";
+import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 import {
   HiOutlineLocationMarker,
@@ -30,21 +33,24 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import Pin from "../components/Pin";
 
 import "leaflet/dist/leaflet.css";
+import Loader from "../components/Loader";
 
 export default function SinglePage({ params }) {
   const { id } = React.use(params);
+  const { user } = useAuth();
+  const router = useRouter();
 
   const [sliderIndex, setSliderIndex] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchPost = async () => {
     try {
       setLoading(true);
-
       const res = await Axios.get(`/post/${id}`);
-
-      console.log(res.data);
+      console.log(res.data.post);
+      
       setData(res.data.post);
     } catch (err) {
       console.log(err);
@@ -57,22 +63,44 @@ export default function SinglePage({ params }) {
     fetchPost();
   }, []);
 
+  const handleDelete = async () => {
+    try {
+      setDeleting(true);
+      const res = await Axios.delete(`/post/${id}`);
+      if (res.data.success) {
+        console.log("hello");
+        toast.success("Post deleted successfully");
+        router.push("/");
+      } else {
+        console.log('hello2');
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete post");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const changeSlide = (direction) => {
     if (direction === "left") {
       setSliderIndex((prev) =>
-        prev === 0 ? data.images.length - 1 : prev - 1,
+        prev === 0 ? data.images.length - 1 : prev - 1
       );
     } else {
       setSliderIndex((prev) =>
-        prev === data.images.length - 1 ? 0 : prev + 1,
+        prev === data.images.length - 1 ? 0 : prev + 1
       );
     }
   };
 
+const isOwner = user && data && user.id === data.userId;
+console.log("user.id:", user?.id, "data.userId:", data?.userId);
+
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center">
-        Loading...
+       <Loader />
       </div>
     );
   }
@@ -175,18 +203,14 @@ export default function SinglePage({ params }) {
           <div className="p-4 rounded-xl space-y-4 shadow-sm">
             <div className="flex items-center gap-3">
               <LuUtilityPole className="text-purple-600" size={24} />
-
               <div>
                 <p className="font-bold text-sm">Utilities</p>
-                <p className="text-xs text-gray-500">
-                  {data.PostDetail.utilities}
-                </p>
+                <p className="text-xs text-gray-500">{data.PostDetail.utilities}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <LuDog className="text-purple-600" size={24} />
-
               <div>
                 <p className="font-bold text-sm">Pet Policy</p>
                 <p className="text-xs text-gray-500">{data.PostDetail.pet}</p>
@@ -195,12 +219,9 @@ export default function SinglePage({ params }) {
 
             <div className="flex items-center gap-3">
               <MdOutlineAttachMoney className="text-purple-600" size={24} />
-
               <div>
                 <p className="font-bold text-sm">Property Fees</p>
-                <p className="text-xs text-gray-500">
-                  {data.PostDetail.income}
-                </p>
+                <p className="text-xs text-gray-500">{data.PostDetail.income}</p>
               </div>
             </div>
           </div>
@@ -212,9 +233,7 @@ export default function SinglePage({ params }) {
           <div className="flex flex-wrap gap-4">
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
               <IoResizeOutline className="text-purple-600" />
-              <span className="text-xs font-semibold">
-                {data.PostDetail.size} sqft
-              </span>
+              <span className="text-xs font-semibold">{data.PostDetail.size} sqft</span>
             </div>
 
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
@@ -224,9 +243,7 @@ export default function SinglePage({ params }) {
 
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
               <LuBath className="text-purple-600" />
-              <span className="text-xs font-semibold">
-                {data.bathroom} bath
-              </span>
+              <span className="text-xs font-semibold">{data.bathroom} bath</span>
             </div>
           </div>
         </div>
@@ -237,7 +254,6 @@ export default function SinglePage({ params }) {
           <div className="p-4 rounded-xl flex justify-between shadow-sm">
             <div className="flex items-center justify-center gap-2">
               <LuSchool className="text-purple-600" />
-
               <div>
                 <p className="text-xs font-bold">School</p>
                 <p className="text-[10px]">{data.PostDetail.school}</p>
@@ -246,7 +262,6 @@ export default function SinglePage({ params }) {
 
             <div className="flex items-center gap-2">
               <LuBus className="text-purple-600" />
-
               <div>
                 <p className="text-xs font-bold">Bus Stop</p>
                 <p className="text-[10px]">{data.PostDetail.bus}</p>
@@ -255,7 +270,6 @@ export default function SinglePage({ params }) {
 
             <div className="flex items-center gap-2">
               <LuUtensils className="text-purple-600" />
-
               <div>
                 <p className="text-xs font-bold">Restaurant</p>
                 <p className="text-[10px]">{data.PostDetail.restaurant}</p>
@@ -278,22 +292,35 @@ export default function SinglePage({ params }) {
                 attribution="&copy OpenStreetMap contributors"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-
               <Pin item={data} />
             </MapContainer>
           </div>
         </div>
 
         <div className="flex gap-4">
-          <button className="flex-1 border py-3 rounded-md flex items-center justify-center gap-2">
-            <HiOutlineChatAlt2 />
-            Send a Message
-          </button>
+          {isOwner ? (
+            <>
+              <button
+                onClick={() => router.push(`/update/${id}`)}
+                className="flex-1 py-3 rounded-md flex items-center justify-center gap-2 bg-gradient-to-r from-purple-900 to-purple-600 text-white cursor-pointer text-sm font-medium"
+              >
+                Update Post
+              </button>
 
-          <button className="flex-1 border py-3 rounded-md flex items-center justify-center gap-2">
-            <HiOutlineBookmark />
-            Save the Place
-          </button>
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="flex-1 border border-red-400 text-red-400 py-3 rounded-md flex items-center justify-center gap-2 cursor-pointer text-sm font-medium hover:bg-red-400 hover:text-white transition-all disabled:opacity-50"
+              >
+                {deleting ? "Deleting..." : "Delete Post"}
+              </button>
+            </>
+          ) : (
+            <button className="flex-1 border py-3 rounded-md flex items-center justify-center gap-2 cursor-pointer text-sm font-medium">
+              <HiOutlineChatAlt2 />
+              Send a Message
+            </button>
+          )}
         </div>
       </div>
     </div>

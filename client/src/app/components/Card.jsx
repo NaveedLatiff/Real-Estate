@@ -15,7 +15,7 @@ const Card = ({ item }) => {
         />
       </Link>
       <div className="flex-3 flex flex-col justify-between py-1">
-        <div className="space-y-2">
+        <div className="space-y-2 items-start">
           <h2 className="text-xl font-bold font-roboto dark:text-white truncate">
             <Link href={`/${item.id}`}>{item.title}</Link>
           </h2>
@@ -28,8 +28,7 @@ const Card = ({ item }) => {
           </p>
         </div>
 
-        <div className="flex justify-between items-center mt-4">
-          <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center">
             <div className="text-black flex items-center gap-1 text-sm bg-gray-100  px-2 py-1 rounded">
               <IoBedOutline />
               <span>{item.bedRooms} bedroom</span>
@@ -40,15 +39,6 @@ const Card = ({ item }) => {
             </div>
           </div>
           
-          <div className="flex gap-3">
-             <button className="p-2 border cursor-pointer border-gray-300 rounded ">
-               <HiOutlineBookmark />
-             </button>
-             <button className="p-2 border cursor-pointer   border-gray-300 rounded  ">
-               <HiOutlineChatAlt2 />
-             </button>
-          </div>
-        </div>
       </div>
     </div>
   )

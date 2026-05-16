@@ -1,7 +1,10 @@
 import "./globals.css";
 import { Poppins, Roboto } from "next/font/google"; 
-import { ThemeProvider } from "@/app/context/ThemeContext"; // Adjust path if needed
+import { ThemeProvider } from "@/app/context/ThemeContext";
 import Navbar from "@/app/components/Navbar";
+import { AuthProvider } from "./context/AuthContext";
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const metadata = {
   title: "LamaEstate",
@@ -25,10 +28,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
         <body className={`${poppins.variable} ${roboto.variable}`}>
+          <AuthProvider>
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>
+          <ToastContainer position="top-right" autoClose={3000} />
         </ThemeProvider>
+          </AuthProvider>
       </body>
     </html>
   );

@@ -6,6 +6,9 @@
   --primary-purple: #6b21a8;
 }
 
+@variant dark (&:where(.dark, .dark *));
+
+
 /* This is the part that makes the magic happen */
 .dark {
   --background: #0a0a0a;

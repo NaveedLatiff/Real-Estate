@@ -3,18 +3,20 @@ import React, { useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
 import gsap from "gsap";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
-  const overlayRef = useRef(null);
-  const linksRef = useRef([]);
+  const { user, logout } = useAuth()
+  const overlayRef = useRef(null)
+  const linksRef = useRef([])
 
   useEffect(() => {
-    const xPercent = (menuIconPosition.x / window.innerWidth) * 100;
-    const yPercent = (menuIconPosition.y / window.innerHeight) * 100;
+    const xPercent = (menuIconPosition.x / window.innerWidth) * 100
+    const yPercent = (menuIconPosition.y / window.innerHeight) * 100
 
     if (isOpen) {
-      document.body.style.overflow = "hidden";
-      gsap.set(overlayRef.current, { display: "flex" });
+      document.body.style.overflow = "hidden"
+      gsap.set(overlayRef.current, { display: "flex" })
       gsap.fromTo(
         overlayRef.current,
         { clipPath: `circle(0% at ${xPercent}% ${yPercent}%)` },
@@ -22,8 +24,8 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
           clipPath: `circle(150% at ${xPercent}% ${yPercent}%)`,
           duration: 0.8,
           ease: "power3.inOut",
-        },
-      );
+        }
+      )
       gsap.fromTo(
         linksRef.current,
         { y: 50, opacity: 0 },
@@ -34,27 +36,30 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
           stagger: 0.1,
           delay: 0.4,
           ease: "power2.out",
-        },
-      );
+        }
+      )
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "unset"
       gsap.to(overlayRef.current, {
         clipPath: `circle(0% at ${xPercent}% ${yPercent}%)`,
         duration: 0.6,
         ease: "power3.inOut",
         onComplete: () => {
-          gsap.set(overlayRef.current, { display: "none" });
+          gsap.set(overlayRef.current, { display: "none" })
         },
-      });
+      })
     }
-  }, [isOpen, menuIconPosition]);
+  }, [isOpen, menuIconPosition])
 
   const menuItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Agents", path: "/agents" },
     { name: "Contact", path: "/contact" },
-  ];
+    { name: "Post Job", path: "/post" },
+    { name: "ALL Properties", path: "/list" },
+    
+  ]
 
   return (
     <div
@@ -64,7 +69,7 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
     >
       <div className="w-full px-6 md:px-10 lg:px-16 py-3 flex justify-between items-center shrink-0">
         <Link href="/">
-          <span className="text-lg  sm:text-2xl font-bold text-white italic font-poppins">
+          <span className="text-lg sm:text-2xl font-bold text-white italic font-poppins">
             LamaEstate
           </span>
         </Link>
@@ -77,34 +82,24 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
       </div>
 
       <div className="flex-1 flex items-center justify-center">
-        <div className="text-center space-y-6 w-full px-6">
+        <div className="text-center space-y-6 w-full px-6 font-roboto">
           {menuItems.map((item, index) => (
             <div key={item.name} ref={(el) => (linksRef.current[index] = el)}>
               <Link
                 href={item.path}
                 onClick={toggleMenu}
-                className=" w-full text-3xl sm:text-4xl md:text-6xl font-bold text-white transition-all uppercase leading-tight md:hover:text-7xl hover:text-purple-600 transition-all"
+                className="w-full text-2xl  md:text-3xl font-bold text-white transition-all uppercase leading-tight md:hover:text-4xl hover:text-purple-900"
               >
                 {item.name}
               </Link>
             </div>
           ))}
 
-          <div
-            className="flex flex-col items-center gap-4 pt-8 lg:hidden w-full max-w-[280px] mx-auto"
-            ref={(el) => (linksRef.current[menuItems.length] = el)}
-          >
-            <button className="w-30 py-3 rounded-2xl font-medium bg-gradient-to-r from-purple-900 to-purple-600 text-white text-lg">
-              Log In
-            </button>
-            <button className="w-30 py-3 rounded-2xl font-medium bg-gradient-to-r from-purple-900 to-purple-600 text-white text-lg">
-              Sign Up
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OverlayMenu;
+export default OverlayMenu

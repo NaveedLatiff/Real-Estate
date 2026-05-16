@@ -8,7 +8,7 @@ const Pin = ({ item }) => {
         <div className="flex flex-col gap-1 w-40">
           <div className="relative h-24 w-full">
             <Image
-              src={item.img}
+              src={item.images[0]}
               alt={item.title}
               width={160}
               height={100}

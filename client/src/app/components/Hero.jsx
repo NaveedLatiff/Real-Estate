@@ -1,110 +1,64 @@
-  "use client"
-  import React, { useState } from "react"
-  import { HiSearch } from "react-icons/hi"
+"use client"
+import React from "react"
 
-  const Hero = () => {
-    const types = ["Buy", "Rent"]
-    const [query, setQuery] = useState({
-      type: "Buy",
-      location: "",
-      minPrice: 0,
-      maxPrice: 0,
-    })
+const Hero = () => {
+  return (
+    <section className="w-full min-h-[calc(100vh-80px)] flex items-center font-poppins overflow-hidden relative  ">
 
-    const switchType = (type) => {
-      setQuery((prev) => ({ ...prev, type }))
-    }
 
-    return (
-      <section className="w-full flex items-center pt-4 font-poppins">
-        <div className="container mx-auto px-6 md:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-10">
-          
-          {/* Left Side */}
-          <div className="flex flex-col justify-center items-start space-y-8">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight dark:text-white font-roboto">
-              Find Real Estate & <br/> Get Your Dream Place
-            </h1>
+      <div className="relative w-full px-6 md:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
-            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
-              explicabo suscipit cum eius, iure est nulla animi consequatur
-              facilis id pariatur fugit quos laudantium temporibus dolor ea
-              repellat provident impedit!
-            </p>
+        <div className="flex flex-col justify-center items-start space-y-8">
 
-            {/* Search Types */}
-            <div className="w-full max-w-2xl">
-              {/* Tabs */}
-              <div className="flex">
-                {types.map((type) => (
-                  <button
-                    key={type}
-                    className={`cursor-pointer px-5 py-2 ${query.type === type ? "bg-black text-white" : "bg-white text-black"} font-medium rounded-t-sm border border-black`}
-                    onClick={() => switchType(type)}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-
-              {/* Search Fields */}
-              <div className="flex flex-col   md:gap-2 md:flex-row  md:items-center bg-white border border-gray-200 shadow-sm">
-                <div className="flex-1 px-4 py-3 border-b md:border-b-0 md:border-r border-gray-400">
-                  <input
-                    type="text"
-                    placeholder="City Location"
-                    className="w-full outline-none text-sm text-black placeholder:text-gray-400"
-                  />
-                </div>
-                <div className="flex-1 px-4 py-3 border-b md:border-b-0 md:border-r border-gray-400 ">
-                  <input
-                    type="number"
-                    placeholder="Min Price"
-                    className="w-full outline-none text-sm text-black placeholder:text-gray-400"
-                  />
-                </div>
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="number"
-                    placeholder="Max Price"
-                    className="w-full outline-none text-sm text-black placeholder:text-gray-400"
-                  />
-                </div>
-                <button className="bg-purple-500 cursor-pointer p-4 md:p-3 flex items-center justify-center transition-colors hover:bg-purple-600">
-                  <HiSearch size={24} className="text-white" />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-6 sm:gap-12 pt-4">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold dark:text-white font-roboto">
-                  16+
-                </h2>
-                <p className="text-gray-500 text-xs md:text-sm">
-                  Years of Experience
-                </p>
-              </div>
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold dark:text-white font-roboto">
-                  200
-                </h2>
-                <p className="text-gray-500 text-xs md:text-sm">Award Gained</p>
-              </div>
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold dark:text-white font-roboto">
-                  1200+
-                </h2>
-                <p className="text-gray-500 text-xs md:text-sm">Property Ready</p>
-              </div>
-            </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-300/40 dark:border-purple-700/40 bg-purple-50/60 dark:bg-purple-900/20">
+            <span className="text-xs font-medium text-purple-700 dark:text-purple-300 tracking-wide uppercase">
+              Top Real Estate Company
+            </span>
           </div>
 
-          {/* Right Side */}
-          <div className="hidden lg:block w-full h-full"></div>
-        </div>
-      </section>
-    )
-  }
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight dark:text-white">
+            Find Real Estate &{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-violet-500 dark:from-purple-400 dark:to-violet-300">
+                Dream Place
+              </span>
+              <svg className="absolute -bottom-1 left-0 w-full" height="6" viewBox="0 0 200 6" preserveAspectRatio="none">
+                <path d="M0 5 Q50 0 100 5 Q150 10 200 5" stroke="url(#ug)" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                <defs>
+                  <linearGradient id="ug" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="0%" stopColor="#7c3aed"/>
+                    <stop offset="100%" stopColor="#8b5cf6"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+          </h1>
 
-  export default Hero
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 max-w-md leading-relaxed">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
+            explicabo suscipit cum eius, iure est nulla animi consequatur
+            facilis id pariatur fugit quos laudantium temporibus dolor ea
+            repellat provident impedit!
+          </p>
+
+          <div className="flex items-center gap-8 pt-2">
+            {[
+              { value: "16K+", label: "Listings" },
+              { value: "98%", label: "Happy Clients" },
+              { value: "12+", label: "Years Experience" },
+            ].map((s, i) => (
+              <div key={i} className="flex flex-col">
+                <span className="text-xl font-extrabold text-purple-700 dark:text-purple-400">{s.value}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden lg:block w-full h-full" />
+      </div>
+    </section>
+  )
+}
+
+export default Hero
