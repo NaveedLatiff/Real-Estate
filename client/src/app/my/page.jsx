@@ -1,6 +1,5 @@
 "use client"
 
-import "../lib/leaflet"
 import Card from "../components/Card.jsx"
 import { useEffect, useState } from "react"
 import Axios from "../../../axios.js"
