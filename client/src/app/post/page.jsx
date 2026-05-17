@@ -1,18 +1,18 @@
-"use client"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { toast } from "react-toastify"
-import Axios from "../../../axios"
-import { useAuth } from "../context/AuthContext"
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import Axios from "../../../axios";
+import { useAuth } from "../context/AuthContext";
 
 const Page = () => {
-  const router = useRouter()
-  const { authLoading, user } = useAuth()
+  const router = useRouter();
+  const { authLoading, user } = useAuth();
 
   useEffect(() => {
-    if (authLoading) return
-    if (!user) router.replace("/")
-  }, [user, authLoading])
+    if (authLoading) return;
+    if (!user) router.replace("/");
+  }, [user, authLoading]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -25,7 +25,7 @@ const Page = () => {
     longitude: "",
     type: "",
     property: "",
-  })
+  });
 
   const [postDetail, setPostDetail] = useState({
     desc: "",
@@ -36,61 +36,61 @@ const Page = () => {
     school: "",
     bus: "",
     restaurant: "",
-  })
+  });
 
-  const [images, setImages] = useState([])
-  const [previews, setPreviews] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [images, setImages] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleDetailChange = (e) => {
-    setPostDetail({ ...postDetail, [e.target.name]: e.target.value })
-  }
+    setPostDetail({ ...postDetail, [e.target.name]: e.target.value });
+  };
 
   const handleImages = (e) => {
-    const files = Array.from(e.target.files)
+    const files = Array.from(e.target.files);
     files.forEach((file) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onloadend = () => {
-        setImages((prev) => [...prev, reader.result])
-        setPreviews((prev) => [...prev, reader.result])
-      }
-    })
-  }
+        setImages((prev) => [...prev, reader.result]);
+        setPreviews((prev) => [...prev, reader.result]);
+      };
+    });
+  };
 
   const removeImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index))
-    setPreviews((prev) => prev.filter((_, i) => i !== index))
-  }
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const res = await Axios.post("/post/", {
         ...formData,
         images,
         postDetail,
-      })
+      });
       if (res.data.success) {
-        toast.success("Post created successfully")
-        router.push("/")
+        toast.success("Post created successfully");
+        router.push("/");
       } else {
-        toast.error(res.data.message)
+        toast.error(res.data.message);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to create post")
+      toast.error(err.response?.data?.message || "Failed to create post");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen w-full py-12 px-4 sm:px-8 lg:px-16">
+    <div className="min-h-screen w-full py-12 px-4 sm:px-8 lg:px-16 bg-white dark:bg-black text-black dark:text-white">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2 dark:text-white">
           Add New{" "}
@@ -98,7 +98,7 @@ const Page = () => {
             Post
           </span>{" "}
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-10">
+        <p className="text-sm text-gray-500 dark: mb-10">
           Fill in the details below to list your property
         </p>
 
@@ -133,7 +133,7 @@ const Page = () => {
                 <span className="text-purple-400 dark:text-purple-500 text-xl leading-none">
                   +
                 </span>
-                <span className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
+                <span className="text-[10px]  dark:text-gray-500 mt-1">
                   Add
                 </span>
                 <input
@@ -153,96 +153,96 @@ const Page = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="sm:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Title
                 </label>
                 <input
                   name="title"
                   type="text"
                   placeholder="e.g. Modern apartment in city center"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.title}
                   onChange={handleChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Price
                 </label>
                 <input
                   name="price"
                   type="number"
                   placeholder="e.g. 1200"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.price}
                   onChange={handleChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   City
                 </label>
                 <input
                   name="city"
                   type="text"
                   placeholder="e.g. New York"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.city}
                   onChange={handleChange}
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Address
                 </label>
                 <input
                   name="address"
                   type="text"
                   placeholder="e.g. 123 Main Street"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.address}
                   onChange={handleChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Bedroom
                 </label>
                 <input
                   name="bedroom"
                   type="number"
                   placeholder="e.g. 2"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.bedroom}
                   onChange={handleChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Bathroom
                 </label>
                 <input
                   name="bathroom"
                   type="number"
                   placeholder="e.g. 1"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.bathroom}
                   onChange={handleChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Type
                 </label>
                 <select
                   name="type"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black  text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={formData.type}
                   onChange={handleChange}
                 >
@@ -253,12 +253,12 @@ const Page = () => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Property
                 </label>
                 <select
                   name="property"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={formData.property}
                   onChange={handleChange}
                 >
@@ -271,28 +271,28 @@ const Page = () => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Latitude
                 </label>
                 <input
                   name="latitude"
                   type="text"
                   placeholder="e.g. 40.7128"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.latitude}
                   onChange={handleChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Longitude
                 </label>
                 <input
                   name="longitude"
                   type="text"
                   placeholder="e.g. -74.0060"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={formData.longitude}
                   onChange={handleChange}
                 />
@@ -306,26 +306,26 @@ const Page = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="sm:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Description
                 </label>
                 <textarea
                   name="desc"
                   rows={4}
                   placeholder="Describe your property..."
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white resize-none"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white resize-none"
                   value={postDetail.desc}
                   onChange={handleDetailChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Utilities
                 </label>
                 <select
                   name="utilities"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={postDetail.utilities}
                   onChange={handleDetailChange}
                 >
@@ -337,12 +337,12 @@ const Page = () => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Pet Policy
                 </label>
                 <select
                   name="pet"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={postDetail.pet}
                   onChange={handleDetailChange}
                 >
@@ -353,70 +353,70 @@ const Page = () => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Income Policy
                 </label>
                 <input
                   name="income"
                   type="text"
                   placeholder="e.g. Must earn 3x rent"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={postDetail.income}
                   onChange={handleDetailChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Total Size (sqft)
                 </label>
                 <input
                   name="size"
                   type="number"
                   placeholder="e.g. 850"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={postDetail.size}
                   onChange={handleDetailChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   School (meters)
                 </label>
                 <input
                   name="school"
                   type="number"
                   placeholder="e.g. 500"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={postDetail.school}
                   onChange={handleDetailChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Bus Stop (meters)
                 </label>
                 <input
                   name="bus"
                   type="number"
                   placeholder="e.g. 200"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={postDetail.bus}
                   onChange={handleDetailChange}
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark: mb-1 block">
                   Restaurant (meters)
                 </label>
                 <input
                   name="restaurant"
                   type="number"
                   placeholder="e.g. 300"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-400 dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder: dark:text-white"
                   value={postDetail.restaurant}
                   onChange={handleDetailChange}
                 />
@@ -438,7 +438,7 @@ const Page = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

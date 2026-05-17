@@ -200,21 +200,21 @@ export default function SinglePage({ params }) {
               <LuUtilityPole className="text-purple-600" size={24} />
               <div>
                 <p className="font-bold text-sm">Utilities</p>
-                <p className="text-xs text-gray-500">{data.PostDetail.utilities}</p>
+                <p className="text-xs text-gray-500">{data.PostDetail.utilities ? data.PostDetail.utilities : "Not specified" }</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <LuDog className="text-purple-600" size={24} />
               <div>
                 <p className="font-bold text-sm">Pet Policy</p>
-                <p className="text-xs text-gray-500">{data.PostDetail.pet}</p>
+                <p className="text-xs text-gray-500">{data.PostDetail.pet ? data.PostDetail.pet : "Not specified"}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <MdOutlineAttachMoney className="text-purple-600" size={24} />
               <div>
                 <p className="font-bold text-sm">Property Fees</p>
-                <p className="text-xs text-gray-500">{data.PostDetail.income}</p>
+                <p className="text-xs text-gray-500">{data.PostDetail.income ? data.PostDetail.income : "Not specified"}</p>
               </div>
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function SinglePage({ params }) {
           <div className="flex flex-wrap gap-4">
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
               <IoResizeOutline className="text-purple-600" />
-              <span className="text-xs font-semibold">{data.PostDetail.size} sqft</span>
+              <span className="text-xs font-semibold">{data.PostDetail.size ? data.PostDetail.size : "Not specified"} sqft</span>
             </div>
             <div className="p-2 rounded-md flex items-center gap-2 flex-1">
               <IoBedOutline className="text-purple-600" />
@@ -245,21 +245,21 @@ export default function SinglePage({ params }) {
               <LuSchool className="text-purple-600" />
               <div>
                 <p className="text-xs font-bold">School</p>
-                <p className="text-[10px]">{data.PostDetail.school}</p>
+                <p className="text-[10px]">{data.PostDetail.school ? data.PostDetail.school : "Not specified"}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <LuBus className="text-purple-600" />
               <div>
                 <p className="text-xs font-bold">Bus Stop</p>
-                <p className="text-[10px]">{data.PostDetail.bus}</p>
+                <p className="text-[10px]">{data.PostDetail.bus ? data.PostDetail.bus : "Not specified"}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <LuUtensils className="text-purple-600" />
               <div>
                 <p className="text-xs font-bold">Restaurant</p>
-                <p className="text-[10px]">{data.PostDetail.restaurant}</p>
+                <p className="text-[10px]">{data.PostDetail.restaurant ? data.PostDetail.restaurant : "Not specified"}</p>
               </div>
             </div>
           </div>

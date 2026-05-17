@@ -29,7 +29,7 @@ const Page = () => {
   }, [])
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen ">
       <div className="flex-3 h-full px-4 md:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto py-6">
           <Filter onResults={setPosts} onSearch={(city) => console.log(city)} />

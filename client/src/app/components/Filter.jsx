@@ -64,7 +64,7 @@ const Filter = ({ onResults, onSearch }) => {
         <div className="flex flex-col">
           <label className="text-xs text-gray-500 mb-1" htmlFor="type">Type</label>
           <select
-            className="border border-gray-300 p-2 rounded outline-none text-sm"
+            className="cursor-pointer border bg-white dark:bg-black border-gray-300 p-2 rounded outline-none text-sm"
             id="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -78,7 +78,7 @@ const Filter = ({ onResults, onSearch }) => {
         <div className="flex flex-col">
           <label className="text-xs text-gray-500 mb-1" htmlFor="property">Property</label>
           <select
-            className="border border-gray-300 p-2 rounded outline-none text-sm"
+            className="cursor-pointer border border-gray-300 p-2 bg-white dark:bg-black rounded outline-none text-sm"
             id="property"
             value={property}
             onChange={(e) => setProperty(e.target.value)}

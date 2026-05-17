@@ -54,7 +54,6 @@ const OverlayMenu = ({ isOpen, toggleMenu, menuIconPosition }) => {
   const menuItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Agents", path: "/agents" },
     { name: "Contact", path: "/contact" },
     { name: "Post Ad", path: "/post" },
     { name: "Properties", path: "/list" },

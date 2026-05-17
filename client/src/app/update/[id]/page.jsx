@@ -1,20 +1,20 @@
-"use client"
-import React, { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { toast } from "react-toastify"
-import Axios from "../../../../axios.js"
-import { useAuth } from "@/app/context/AuthContext.jsx"
-import Loader from "@/app/components/Loader.jsx"
+"use client";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import Axios from "../../../../axios.js";
+import { useAuth } from "@/app/context/AuthContext.jsx";
+import Loader from "@/app/components/Loader.jsx";
 
 const Page = ({ params }) => {
-  const router = useRouter()
-  const { id } = React.use(params)
-  const { authLoading, user } = useAuth()
+  const router = useRouter();
+  const { id } = React.use(params);
+  const { authLoading, user } = useAuth();
 
   useEffect(() => {
-    if (authLoading) return
-    if (!user) router.replace("/login")
-  }, [user, authLoading])
+    if (authLoading) return;
+    if (!user) router.replace("/login");
+  }, [user, authLoading]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -27,7 +27,7 @@ const Page = ({ params }) => {
     longitude: "",
     type: "",
     property: "",
-  })
+  });
 
   const [postDetail, setPostDetail] = useState({
     desc: "",
@@ -38,18 +38,18 @@ const Page = ({ params }) => {
     school: "",
     bus: "",
     restaurant: "",
-  })
+  });
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [fetching, setFetching] = useState(true)
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        setFetching(true)
-        const res = await Axios.get(`/post/${id}`)
+        setFetching(true);
+        const res = await Axios.get(`/post/${id}`);
         if (res.data.success) {
-          const post = res.data.post
+          const post = res.data.post;
           setFormData({
             title: post.title || "",
             price: post.price || "",
@@ -61,7 +61,7 @@ const Page = ({ params }) => {
             longitude: post.longitude || "",
             type: post.type || "",
             property: post.property || "",
-          })
+          });
           if (post.PostDetail) {
             setPostDetail({
               desc: post.PostDetail.desc || "",
@@ -72,64 +72,63 @@ const Page = ({ params }) => {
               school: post.PostDetail.school || "",
               bus: post.PostDetail.bus || "",
               restaurant: post.PostDetail.restaurant || "",
-            })
+            });
           }
         } else {
-          toast.error(res.data.message)
-          router.push("/")
+          toast.error(res.data.message);
+          router.push("/");
         }
       } catch (err) {
-        toast.error("Failed to fetch post")
-        router.push("/")
+        toast.error("Failed to fetch post");
+        router.push("/");
       } finally {
-        setFetching(false)
+        setFetching(false);
       }
-    }
+    };
 
-    fetchPost()
-  }, [id])
+    fetchPost();
+  }, [id]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleDetailChange = (e) => {
-    setPostDetail({ ...postDetail, [e.target.name]: e.target.value })
-  }
+    setPostDetail({ ...postDetail, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const res = await Axios.put(`/post/${id}`, {
         ...formData,
         postDetail,
-      })
+      });
       if (res.data.success) {
-        toast.success("Post updated successfully")
-        router.push(`/${id}`)
+        toast.success("Post updated successfully");
+        router.push(`/${id}`);
       } else {
-        toast.error(res.data.message)
+        toast.error(res.data.message);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to update post")
+      toast.error(err.response?.data?.message || "Failed to update post");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   if (fetching) {
     return (
       <div className="h-screen flex items-center justify-center">
         <Loader />
       </div>
-    )
+    );
   }
 
   return (
-    <div className="min-h-screen w-full py-12 px-4 sm:px-8 lg:px-16">
+    <div className="min-h-screen w-full py-12 px-4 sm:px-8 lg:px-16 bg-white dark:bg-black text-black dark:text-white ">
       <div className="max-w-4xl mx-auto">
-
         <h1 className="text-3xl font-bold mb-2 dark:text-white">
           Update{" "}
           <span className="text-purple-600 dark:text-purple-400">Post</span>
@@ -139,13 +138,15 @@ const Page = ({ params }) => {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-10">
-
           <div>
-            <h2 className="text-lg font-semibold dark:text-white mb-4">Property Info</h2>
+            <h2 className="text-lg font-semibold dark:text-white mb-4">
+              Property Info
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
               <div className="sm:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Title</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Title
+                </label>
                 <input
                   name="title"
                   type="text"
@@ -157,7 +158,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Price</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Price
+                </label>
                 <input
                   name="price"
                   type="number"
@@ -169,7 +172,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">City</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  City
+                </label>
                 <input
                   name="city"
                   type="text"
@@ -181,7 +186,9 @@ const Page = ({ params }) => {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Address</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Address
+                </label>
                 <input
                   name="address"
                   type="text"
@@ -193,7 +200,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Bedroom</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Bedroom
+                </label>
                 <input
                   name="bedroom"
                   type="number"
@@ -205,7 +214,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Bathroom</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Bathroom
+                </label>
                 <input
                   name="bathroom"
                   type="number"
@@ -217,10 +228,12 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Type</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Type
+                </label>
                 <select
                   name="type"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={formData.type}
                   onChange={handleChange}
                 >
@@ -231,10 +244,12 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Property</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Property
+                </label>
                 <select
                   name="property"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={formData.property}
                   onChange={handleChange}
                 >
@@ -247,7 +262,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Latitude</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Latitude
+                </label>
                 <input
                   name="latitude"
                   type="text"
@@ -259,7 +276,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Longitude</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Longitude
+                </label>
                 <input
                   name="longitude"
                   type="text"
@@ -269,16 +288,18 @@ const Page = ({ params }) => {
                   onChange={handleChange}
                 />
               </div>
-
             </div>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold dark:text-white mb-4">Post Details</h2>
+            <h2 className="text-lg font-semibold dark:text-white mb-4">
+              Post Details
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
               <div className="sm:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Description</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Description
+                </label>
                 <textarea
                   name="desc"
                   rows={4}
@@ -290,10 +311,12 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Utilities</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Utilities
+                </label>
                 <select
                   name="utilities"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={postDetail.utilities}
                   onChange={handleDetailChange}
                 >
@@ -305,10 +328,12 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Pet Policy</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Pet Policy
+                </label>
                 <select
                   name="pet"
-                  className="w-full border border-gray-200 dark:border-gray-700 bg-transparent rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer dark:text-white"
+                  className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 transition-all cursor-pointer"
                   value={postDetail.pet}
                   onChange={handleDetailChange}
                 >
@@ -319,7 +344,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Income Policy</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Income Policy
+                </label>
                 <input
                   name="income"
                   type="text"
@@ -331,7 +358,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Total Size (sqft)</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Total Size (sqft)
+                </label>
                 <input
                   name="size"
                   type="number"
@@ -343,7 +372,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">School (meters)</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  School (meters)
+                </label>
                 <input
                   name="school"
                   type="number"
@@ -355,7 +386,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Bus Stop (meters)</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Bus Stop (meters)
+                </label>
                 <input
                   name="bus"
                   type="number"
@@ -367,7 +400,9 @@ const Page = ({ params }) => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">Restaurant (meters)</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">
+                  Restaurant (meters)
+                </label>
                 <input
                   name="restaurant"
                   type="number"
@@ -377,7 +412,6 @@ const Page = ({ params }) => {
                   onChange={handleDetailChange}
                 />
               </div>
-
             </div>
           </div>
 
@@ -392,11 +426,10 @@ const Page = ({ params }) => {
               "Save Changes"
             )}
           </button>
-
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
