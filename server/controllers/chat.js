@@ -96,10 +96,7 @@ export const sendMessage = async (req, res) => {
     })
     await prisma.chat.update({
       where: { id: req.params.id },
-      data: {
-        seenBy: [userId],
-        updatedAt: new Date(),
-      },
+      data: { seenBy: [userId], updatedAt: new Date() }
     })
     res.json({ success: true, message })
   } catch (err) {
